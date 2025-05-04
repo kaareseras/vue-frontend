@@ -3,7 +3,9 @@ import router from '@/router'
 import { reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 import axios from 'axios'
+
 
 const route = useRoute();
 const jobId = route.params.id; // Get the job ID from the route parameters

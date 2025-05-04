@@ -1,8 +1,11 @@
 <script setup>
 import logo from '@/assets/img/logo.png';
-import {RouterLink, useRoute} from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
+import { useAuthStore } from '@/stores/auth'
 
-const isActiveLink  = (routePath) => {
+const auth = useAuthStore()
+
+const isActiveLink = (routePath) => {
     const route = useRoute();
     return route.path === routePath;
 };
@@ -20,12 +23,38 @@ const isActiveLink  = (routePath) => {
                     </RouterLink>
                     <div class="md:ml-auto">
                         <div class="flex space-x-2">
+                            <!-- home button  -->
                             <RouterLink to="/"
-                            :class="[isActiveLink('/') ? 'bg-green-900' :'hover:bg-gray-900 hover:text-white', 'text-white' , 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">Home</RouterLink>
+                                :class="[isActiveLink('/') ? 'bg-green-900' : 'hover:bg-gray-900 hover:text-white', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
+                                <i class="pi pi-home"></i>
+                            </RouterLink>
+
                             <RouterLink to="/jobs"
-                            :class="[isActiveLink('/jobs') ? 'bg-green-900' :'hover:bg-gray-900', 'text-white' , 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">Jobs</RouterLink>
+                                :class="[isActiveLink('/jobs') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
+                                Jobs</RouterLink>
+
                             <RouterLink to="/jobs/add"
-                            :class="[isActiveLink('/jobs/add') ? 'bg-green-900' :'hover:bg-gray-900', 'text-white' , 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">Add Job</RouterLink>
+                                :class="[isActiveLink('/jobs/add') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
+                                Add Job</RouterLink>
+
+                            <RouterLink v-if="!auth.isAuthenticated" to="/login"
+                                :class="[isActiveLink('/login') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
+                                <i class="pi pi-sign-in"></i>
+                                Login
+                            </RouterLink>
+
+                            <RouterLink v-if="!auth.isAuthenticated" to="/UserCreate"
+                                :class="[isActiveLink('/UserCreate') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
+                                <i class="pi pi-user-plus"></i>
+                                Register
+                            </RouterLink>
+
+                            <RouterLink v-else to="/user"
+                                :class="[isActiveLink('/user') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
+                                <i class="pi pi-user"></i>
+                                
+                            </RouterLink>
+
                         </div>
                     </div>
                 </div>
