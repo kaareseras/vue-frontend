@@ -2,13 +2,22 @@
 import logo from '@/assets/img/logo.png';
 import { RouterLink, useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth'
+import { onMounted } from 'vue';
 
 const auth = useAuthStore()
+
+let username = '';
+
+if (auth.user) {
+    username = auth.user.name
+}
 
 const isActiveLink = (routePath) => {
     const route = useRoute();
     return route.path === routePath;
 };
+
+
 </script>
 
 <template>
@@ -45,8 +54,13 @@ const isActiveLink = (routePath) => {
 
                             <RouterLink v-if="auth.isAuthenticated" to="/user"
                                 :class="[isActiveLink('/user') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
-                                <i class="pi pi-user"></i>
-                                {{ auth.user.name}}                  
+                                
+                                <div v-if="auth.user">
+                                    <i class="pi pi-user"></i>
+                                    {{ auth.user.name }}
+                                </div>
+                                
+                                                 
                             </RouterLink>
 
                             <RouterLink v-if="!auth.isAuthenticated" to="/UserCreate"

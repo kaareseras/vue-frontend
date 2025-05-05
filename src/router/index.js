@@ -11,6 +11,7 @@ import UserCreateView from '@/views/UserCreateView.vue';
 import AccountVerifyView from '@/views/AccountVerifyView.vue';
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue';
 import ResetPasswordView from '@/views/ResetPasswordView.vue';
+import AdminDashboardView from '@/views/AdminDashboardView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,7 +70,12 @@ const router = createRouter({
             path: '/reset-password',
             name: 'reset-password',
             component: ResetPasswordView
-        },        
+        },  
+        {
+            path: '/admin',
+            name: 'admin-dashboard',
+            component: AdminDashboardView
+        },       
         {
             path: '/:catchAll(.*)',
             name: 'not-found',
