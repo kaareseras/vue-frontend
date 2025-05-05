@@ -4,11 +4,11 @@ import { defineProps } from 'vue';
 const props = defineProps({
   title: {
     type: String,
-    default: 'Become a Vue Dev'
+    default: 'Live El-pris lige her lige nu'
   },
     subtitle: {
         type: String,
-        default: 'Find the Vue job that fits your skills and needs'
+        default: 'Få overblik over prisen, så du stryre dine el-udgifter'
     }
 });
 

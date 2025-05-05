@@ -19,6 +19,8 @@ const router = useRouter()
 const auth = useAuthStore()
 const toast = useToast()
 
+username.value = auth.user.email || ''
+
 async function forgotPassword() {
     try {
         const response = await fetch('http://localhost:8000/auth/forgot-password', {
