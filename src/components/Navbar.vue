@@ -38,13 +38,7 @@ const isActiveLink = (routePath) => {
                                 <i class="pi pi-home"></i>
                             </RouterLink>
 
-                            <RouterLink to="/jobs"
-                                :class="[isActiveLink('/jobs') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
-                                Jobs</RouterLink>
 
-                            <RouterLink to="/jobs/add"
-                                :class="[isActiveLink('/jobs/add') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
-                                Add Job</RouterLink>
 
                             <RouterLink v-if="auth.isAdmin" to="/admin"
                                 :class="[isActiveLink('/admin') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
@@ -66,7 +60,7 @@ const isActiveLink = (routePath) => {
                             <RouterLink v-if="!auth.isAuthenticated" to="/UserCreate"
                                 :class="[isActiveLink('/UserCreate') ? 'bg-green-900' : 'hover:bg-gray-900', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
                                 <i class="pi pi-user-plus"></i>
-                                Register
+                                Sign up
                             </RouterLink>
 
                             <RouterLink v-if="!auth.isAuthenticated" to="/login"

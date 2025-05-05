@@ -8,27 +8,28 @@ import { RouterLink } from 'vue-router';
       <div class="container-xl lg:container m-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg">
           <Card>
-            <h2 class="text-2xl font-bold">For Developers</h2>
+            <h2 class="text-2xl font-bold">Bought a Powergy device</h2>
             <p class="mt-2 mb-4">
-              Browse our Vue jobs and start your career today
+              Clik here to register your device and start using it
             </p>
             <RouterLink
-              to="/jobs"
+              to="/usercreate"
               class="inline-block bg-black text-white rounded-lg px-4 py-2 hover:bg-gray-700"
             >
-              Browse Jobs
+              Sign up
             </RouterLink>
           </Card>
           <Card bg="bg-green-100">
-            <h2 class="text-2xl font-bold">For Employers</h2>
+            <h2 class="text-2xl font-bold">Would like to know more?</h2>
             <p class="mt-2 mb-4">
-              List your job to find the perfect developer for the role
+              Find aout more about Powergy and how it can help you save energy
+              and money.
             </p>
             <RouterLink
-              to="/jobs/add"
+              to="/about"
               class="inline-block bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-600"
             >
-              Add Job
+              Know more?
             </RouterLink>
           </Card>
         </div>

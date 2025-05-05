@@ -1,7 +1,7 @@
 <script setup>
 import Hero from '@/components/Hero.vue';
 import Homecards from '@/components/Homecards.vue';
-import JobListings from '@/components/JobListings.vue';
+import HomeImage from '@/components/HomeImage.vue';
 </script>
 
 <template>
@@ -9,7 +9,9 @@ import JobListings from '@/components/JobListings.vue';
 
   <!-- <Hero title="Test Title" subtitle="Default Subtitle"/> -->
   <Hero />
+ 
+  <HomeImage />
   <Homecards />
-  <JobListings :limit="3" :showButton="true" />
+
 
 </template>
