@@ -1,7 +1,6 @@
 <script setup>
 import { defineProps } from 'vue';
 import { RouterLink } from 'vue-router';
-import { LightBulbIcon } from '@heroicons/vue/24/solid'; // Example icon
 // Replace this with a dynamic solution if you want different icons per task
 
 const props = defineProps({
