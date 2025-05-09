@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(username, password) {
       try {
-        const response = await fetch('http://localhost:8000/auth/login', {
+        const response = await fetch('http://api/auth/login', {
           method: 'POST',
           headers: {
             accept: 'application/json',
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore('auth', {
       if (!this.token) return
 
       try {
-        const response = await fetch('http://localhost:8000/users/me', {
+        const response = await fetch('http://api/users/me', {
           headers: {
             Authorization: `Bearer ${this.token}`,
             accept: 'application/json',

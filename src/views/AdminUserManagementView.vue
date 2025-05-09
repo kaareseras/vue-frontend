@@ -17,7 +17,7 @@ const toast = useToast();
 // Axios config med token og baseURL
 const token = localStorage.getItem('token');
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8000/',
+  baseURL: 'http://api/',
   headers: {
     Authorization: `Bearer ${token}`,
   },

@@ -17,7 +17,7 @@ onMounted(async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/users/verify', {
+    const response = await fetch('http://api/users/verify', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

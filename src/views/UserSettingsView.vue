@@ -25,7 +25,7 @@ const user = reactive({
 
 onMounted(async () => {
     try {
-        const response = await fetch('http://localhost:8000/users/me', {
+        const response = await fetch('http://api/users/me', {
             headers: {
                 Authorization: `Bearer ${auth.token}`
             }
@@ -46,7 +46,7 @@ onMounted(async () => {
 
 async function saveChanges() {
     try {
-        const response = await fetch('http://localhost:8000/users/update', {
+        const response = await fetch('http://api/users/update', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${auth.token}`,
