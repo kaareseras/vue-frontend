@@ -45,7 +45,7 @@ async function handleSignup() {
   }
 
   try {
-    const response = await fetch('http://api/users', {
+    const response = await fetch('api/users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

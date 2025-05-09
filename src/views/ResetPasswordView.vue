@@ -55,7 +55,7 @@ async function handleReset() {
   }
 
   try {
-    const response = await fetch('http://api/auth/reset-password', {
+    const response = await fetch('api/auth/reset-password', {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
