@@ -23,7 +23,7 @@ username.value = auth.user.email || ''
 
 async function forgotPassword() {
     try {
-        const response = await fetch('/api/auth/forgot-password', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/forgot-password`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${auth.token}`,

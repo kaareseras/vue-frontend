@@ -55,7 +55,7 @@ async function handleReset() {
   }
 
   try {
-    const response = await fetch('/api/auth/reset-password', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/reset-password`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
