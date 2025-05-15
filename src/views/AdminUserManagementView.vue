@@ -43,11 +43,11 @@ const loadUsers = async () => {
   }
 };
 
-const toggleActive = async (user) => {
+const toggleAdmin = async (user) => {
   try {
-    const updated = { ...user, is_active: !user.is_active };
-    await axiosInstance.put(`/users/${user.id}`, updated);
-    toast.success(`User ${updated.is_active ? 'activated' : 'deactivated'}`);
+    const updated = { ...user, is_admin: !user.is_admin };
+    await axiosInstance.put(`/users/admin/${user.id}//${updated.is_admin}`);
+    toast.success(`User ${updated.is_admin ? 'made admin' : 'removed admin'}`);
     await loadUsers();
   } catch (error) {
     toast.error('Failed to update user status.');
@@ -126,27 +126,16 @@ onMounted(() => {
                 {{ new Date(user.created_at).toLocaleDateString() }}
               </td>
               <td class="px-6 py-4 flex flex-wrap gap-2 justify-center">
-                <RouterLink
-                  :to="`/admin/users/${user.id}`"
-                  class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs"
-                >
-                  View
-                </RouterLink>
+
                 <button
-                  @click="toggleActive(user)"
-                  :class="user.is_active
+                  @click="toggleAdmin(user)"
+                  :class="user.is_admin
                     ? 'bg-yellow-500 hover:bg-yellow-600'
                     : 'bg-green-500 hover:bg-green-600'"
                   class="text-white px-3 py-1 rounded text-xs"
                 >
-                  {{ user.is_active ? 'Deactivate' : 'Activate' }}
+                  {{ user.is_admin ? 'Remove Admin' : 'Make Admin' }}
                 </button>
-                <RouterLink
-                  :to="`/admin/users/edit/${user.id}`"
-                  class="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded text-xs"
-                >
-                  Edit
-                </RouterLink>
                 <button
                   @click="deleteUser(user.id)"
                   class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
