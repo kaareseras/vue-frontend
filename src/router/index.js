@@ -9,6 +9,8 @@ import ForgotPasswordView from '@/views/ForgotPasswordView.vue';
 import ResetPasswordView from '@/views/ResetPasswordView.vue';
 import AdminDashboardView from '@/views/AdminDashboardView.vue';
 import AdminUserManagementView from '@/views/AdminUserManagementView.vue';
+import AdminChargeOwnerView from '@/views/AdminChargeOwnerView.vue';
+import AdminChargeView from '@/views/AdminChargeView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,6 +59,16 @@ const router = createRouter({
             path: '/admin/users',
             name: 'admin-user-management',
             component: AdminUserManagementView
+        },
+        {
+            path: '/admin/charge-owners',
+            name: 'charge-owners-user-management',
+            component: AdminChargeOwnerView
+        },
+        {
+            path: '/admin/charges',
+            name: 'charge-user-management',
+            component: AdminChargeView
         },
         {
             path: '/:catchAll(.*)',
