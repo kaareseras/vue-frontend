@@ -24,11 +24,10 @@ const state = reactive({
   isEditMode: false,
   selectedOwnerId: null,
   newForm: {
-    name: '',
-    company: '',
+    compagny: '',
     glnnumber: '',
-    type: '',
     chargetype: '',
+    chargetypecode: '',
     is_active: true,
   },
 });
@@ -39,6 +38,7 @@ const loadChargeOwners = async () => {
   try {
     const response = await axiosInstance.get('/chargeowner');
     state.chargeOwners = response.data;
+    state.chargeOwners.sort((a, b) => a.compagny.localeCompare(b.compagny));
   } catch (error) {
     if (error.response && error.response.status === 404) {
       state.error404 = true;
@@ -53,8 +53,7 @@ const loadChargeOwners = async () => {
 
 const filteredChargeOwners = computed(() => {
   return state.chargeOwners.filter((co) =>
-    co.name.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-    co.company.toLowerCase().includes(state.searchQuery.toLowerCase())
+    co.compagny.toLowerCase().includes(state.searchQuery.toLowerCase()) || co.glnnumber.toLowerCase().includes(state.searchQuery.toLowerCase())
   );
 });
 
@@ -165,13 +164,8 @@ onMounted(() => {
 
         <form @submit.prevent="submitChargeOwner" class="space-y-4">
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-            <input id="name" v-model="state.newForm.name" required class="w-full border px-4 py-2 rounded" />
-          </div>
-
-          <div>
             <label for="company" class="block text-sm font-medium text-gray-700 mb-1">Company</label>
-            <input id="company" v-model="state.newForm.company" required class="w-full border px-4 py-2 rounded" />
+            <input id="company" v-model="state.newForm.compagny" required class="w-full border px-4 py-2 rounded" />
           </div>
 
           <div>
@@ -180,13 +174,13 @@ onMounted(() => {
           </div>
 
           <div>
-            <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Type</label>
-            <input id="type" v-model="state.newForm.type" class="w-full border px-4 py-2 rounded" />
+            <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Charge Type</label>
+            <input id="type" v-model="state.newForm.chargetype" class="w-full border px-4 py-2 rounded" />
           </div>
 
           <div>
-            <label for="chargetype" class="block text-sm font-medium text-gray-700 mb-1">Charge Type</label>
-            <input id="chargetype" v-model="state.newForm.chargetype" class="w-full border px-4 py-2 rounded" />
+            <label for="chargetype" class="block text-sm font-medium text-gray-700 mb-1">Charge Type Code</label>
+            <input id="chargetype" v-model="state.newForm.chargetypecode" class="w-full border px-4 py-2 rounded" />
           </div>
 
           <div class="flex items-center gap-2">
@@ -209,7 +203,7 @@ onMounted(() => {
 
     <!-- Search Bar -->
     <div class="mb-6 max-w-md mx-auto">
-      <input v-model="state.searchQuery" type="text" placeholder="Search by name or company..."
+      <input v-model="state.searchQuery" type="text" placeholder="Search by company or GLN..."
         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
     </div>
 
@@ -222,31 +216,27 @@ onMounted(() => {
         <table class="min-w-full table-auto text-sm text-left text-gray-700">
           <thead class="bg-blue-100 text-blue-800 uppercase text-xs">
             <tr>
-              <th class="px-6 py-4">Name</th>
-              <th class="px-6 py-4">Company</th>
+              <th class="px-6 py-4">Compagny</th>
               <th class="px-6 py-4">GLN</th>
-              <th class="px-6 py-4">Type</th>
               <th class="px-6 py-4">Charge Type</th>
+              <th class="px-6 py-4">Charge Type Code</th>
               <th class="px-6 py-4">Active</th>
               <th class="px-6 py-4 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="owner in filteredChargeOwners" :key="owner.id" class="border-b hover:bg-blue-50 transition">
-              <td class="px-6 py-4 font-medium text-gray-900">
-                <input v-model="owner.name" class="bg-transparent w-full border-none focus:outline-none" />
-              </td>
               <td class="px-6 py-4">
-                <input v-model="owner.company" class="bg-transparent w-full border-none focus:outline-none" />
+                <input v-model="owner.compagny" class="bg-transparent w-full border-none focus:outline-none" />
               </td>
               <td class="px-6 py-4">
                 <input v-model="owner.glnnumber" class="bg-transparent w-full border-none focus:outline-none" />
               </td>
               <td class="px-6 py-4">
-                <input v-model="owner.type" class="bg-transparent w-full border-none focus:outline-none" />
+                <input v-model="owner.chargetype" class="bg-transparent w-full border-none focus:outline-none" />
               </td>
               <td class="px-6 py-4">
-                <input v-model="owner.chargetype" class="bg-transparent w-full border-none focus:outline-none" />
+                <input v-model="owner.chargetypecode" class="bg-transparent w-full border-none focus:outline-none" />
               </td>
               <td class="px-6 py-4">
                 <span :class="owner.is_active ? 'text-green-700 font-semibold' : 'text-red-600 font-semibold'">

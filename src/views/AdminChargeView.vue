@@ -36,11 +36,11 @@ const state = reactive({
   },
 });
 
-const loadItems = async (glnnumber) => {
+const loadItems = async (chargeowner_id) => {
   state.isLoading = true;
   state.error404 = false;
   try {
-    const response = await axiosInstance.get('/charge/gln/' + glnnumber);
+    const response = await axiosInstance.get('/charge/chargeowner/' + chargeowner_id);
     state.chargeItems = response.data;
   } catch (error) {
     if (error.response && error.response.status === 404) {
@@ -110,10 +110,23 @@ const openNewForm = () => {
   state.showNewForm = true;
 };
 
+function formatDate(dateStr) {
+  return dateStr ? dateStr.split('T')[0] : '';
+}
+
 const openEditForm = (item) => {
   state.isEditMode = true;
   state.selectedItemId = item.id;
-  state.newForm = { ...item };
+  state.newForm = {
+    chargeowner_id: item.chargeowner_id,
+    charge_type: item.charge_type,
+    charge_type_code: item.charge_type_code,
+    note: item.note,
+    description: item.description,
+    valid_from: formatDate(item.valid_from),
+    valid_to: formatDate(item.valid_to),
+    ...Object.fromEntries(Array.from({ length: 24 }, (_, i) => [`price${i + 1}`, item[`price${i + 1}`] || 0])),
+  };
   state.showNewForm = true;
 };
 
@@ -149,14 +162,13 @@ onMounted(() => {
         </button>
       </div>
 
-      <input type="text" v-model="state.searchQuery" placeholder="Search charges..."
-        class="mb-4 px-3 py-2 border rounded w-full" />
+
 
       <div class="mb-4 flex items-center gap-4">
         <label class="font-medium text-gray-700">Filter by Charge Owner:</label>
         <select v-model="state.searchQuery" @change="onChargeOwnerFilterChange" class="border px-3 py-2 rounded">
-          <option v-for="owner in state.chargeOwners" :key="owner.glnnumber" :value="owner.glnnumber">
-            {{ owner.name }} ({{ owner.glnnumber }})
+          <option v-for="owner in state.chargeOwners" :key="owner.glnnumber" :value="owner.id">
+            {{ owner.compagny }} ({{ owner.glnnumber }})
           </option>
         </select>
       </div>
@@ -172,7 +184,6 @@ onMounted(() => {
       <table v-else class="w-full table-auto border-collapse border border-gray-300">
         <thead>
           <tr class="bg-gray-100 text-left">
-            <th class="border px-4 py-2">Charge Owner</th>
             <th class="border px-4 py-2">Type</th>
             <th class="border px-4 py-2">Code</th>
             <th class="border px-4 py-2">Valid From</th>
@@ -184,12 +195,7 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in state.chargeItems.filter(charge =>
-            charge.charge_type?.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-            charge.charge_type_code?.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-            charge.note?.toLowerCase().includes(state.searchQuery.toLowerCase())
-          )" :key="item.id" class="hover:bg-gray-50">
-            <td class="border px-4 py-2">{{ item.chargeowner_id }}</td>
+          <tr v-for="item in state.chargeItems" :key="item.id" class="hover:bg-gray-50">
             <td class="border px-4 py-2">{{ item.charge_type }}</td>
             <td class="border px-4 py-2">{{ item.charge_type_code }}</td>
             <td class="border px-4 py-2">{{ item.valid_from }}</td>
@@ -222,7 +228,7 @@ onMounted(() => {
 
 
               <select v-model="state.newForm.chargeowner_id" class="w-full border px-3 py-2 rounded">
-                <option v-for="owner in state.chargeOwners" :key="owner.glnnumber" :value="owner.glnnumber">
+                <option v-for="owner in state.chargeOwners" :key="owner.glnnumber" :value="owner.id">
                   {{ owner.name }} ({{ owner.glnnumber }})
                 </option>
               </select>
