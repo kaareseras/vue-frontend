@@ -153,64 +153,68 @@ onMounted(() => {
 
 <template>
   <section class="bg-blue-50 min-h-screen px-6 py-10">
-    <div class="p-4">
-      <BackButton />
-      <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold text-blue-800">Charges</h1>
-        <button @click="openNewForm" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
-          + Add Charge
-        </button>
+    <BackButton />
+    <h1 class="text-3xl font-bold text-blue-700 mb-4 text-center">Charges</h1>
+
+        <!-- New Button -->
+    <div class="flex justify-center mb-6">
+      <button @click="openNewForm" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">
+        New Charge
+      </button>
+    </div>
+
+        <!-- Search Bar -->
+    <div class="mb-6 max-w-md mx-auto">
+      <select v-model="state.searchQuery" @change="onChargeOwnerFilterChange" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option v-for="owner in state.chargeOwners" :key="owner.glnnumber" :value="owner.id">
+          {{ owner.compagny }} ({{ owner.glnnumber }})
+        </option>
+      </select>
+    </div>
+
+
+
+    <div v-if="state.isLoading" class="flex justify-center mt-10">
+      <PulseLoader :loading="true" color="#2563EB" size="12px" />
+    </div>
+
+    <div v-else-if="state.error404" class="text-center text-red-600">
+      No charges found.
+    </div>
+    <!-- Table -->
+    <div v-else >
+      <div class="overflow-x-auto bg-white rounded-xl shadow-md">
+        <table class="min-w-full table-auto text-sm text-left text-gray-700">
+          <thead class="bg-blue-100 text-blue-800 uppercase text-xs">
+            <tr >
+              <th class="px-6 py-4">Type</th>
+              <th class="px-6 py-4">Code</th>
+              <th class="px-6 py-4">Valid From</th>
+              <th class="px-6 py-4">Valid To</th>
+              <th class="px-6 py-4">Price 1</th>
+              <th class="px-6 py-4">Price 2</th>
+              <th class="px-6 py-4">Note</th>
+              <th class="px-6 py-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in state.chargeItems" :key="item.id" class="border-b hover:bg-blue-50 transition">
+              <td class="px-6 py-4">{{ item.charge_type }}</td>
+              <td class="px-6 py-4">{{ item.charge_type_code }}</td>
+              <td class="px-6 py-4">{{ item.valid_from }}</td>
+              <td class="px-6 py-4">{{ item.valid_to }}</td>
+              <td class="px-6 py-4">{{ item.price1 }}</td>
+              <td class="px-6 py-4">{{ item.price2 }}</td>
+              <td class="px-6 py-4">{{ item.note }}</td>
+              <td class="px-6 py-4">
+                <button @click="openEditForm(item)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-xs">
+                  Edit
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-
-
-      <div class="mb-4 flex items-center gap-4">
-        <label class="font-medium text-gray-700">Filter by Charge Owner:</label>
-        <select v-model="state.searchQuery" @change="onChargeOwnerFilterChange" class="border px-3 py-2 rounded">
-          <option v-for="owner in state.chargeOwners" :key="owner.glnnumber" :value="owner.id">
-            {{ owner.compagny }} ({{ owner.glnnumber }})
-          </option>
-        </select>
-      </div>
-
-      <div v-if="state.isLoading" class="flex justify-center mt-10">
-        <PulseLoader :loading="true" color="#2563EB" size="12px" />
-      </div>
-
-      <div v-else-if="state.error404" class="text-center text-red-600">
-        No charges found.
-      </div>
-
-      <table v-else class="w-full table-auto border-collapse border border-gray-300">
-        <thead>
-          <tr class="bg-gray-100 text-left">
-            <th class="border px-4 py-2">Type</th>
-            <th class="border px-4 py-2">Code</th>
-            <th class="border px-4 py-2">Valid From</th>
-            <th class="border px-4 py-2">Valid To</th>
-            <th class="border px-4 py-2">Price 1</th>
-            <th class="border px-4 py-2">Price 2</th>
-            <th class="border px-4 py-2">Note</th>
-            <th class="border px-4 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in state.chargeItems" :key="item.id" class="hover:bg-gray-50">
-            <td class="border px-4 py-2">{{ item.charge_type }}</td>
-            <td class="border px-4 py-2">{{ item.charge_type_code }}</td>
-            <td class="border px-4 py-2">{{ item.valid_from }}</td>
-            <td class="border px-4 py-2">{{ item.valid_to }}</td>
-            <td class="border px-4 py-2">{{ item.price1 }}</td>
-            <td class="border px-4 py-2">{{ item.price2 }}</td>
-            <td class="border px-4 py-2">{{ item.note }}</td>
-            <td class="border px-4 py-2">
-              <button @click="openEditForm(item)" class="text-blue-600 hover:underline">
-                Edit
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
 
       <!-- Modal -->
       <div v-if="state.showNewForm" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -270,7 +274,8 @@ onMounted(() => {
             <div class="grid grid-cols-2 gap-4">
               <div v-for="i in 24" :key="i">
                 <label class="block text-sm font-medium mb-1">Price {{ i }}</label>
-                <input v-model.number="state.newForm[`price${i}`]" type="number"
+                <input v-model.number="state.newForm[`price${i}`]" type="decimal" step="0.001" required
+                       :placeholder="`Price ${i}`"
                   class="w-full border px-3 py-2 rounded" />
               </div>
             </div>
