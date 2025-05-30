@@ -5,6 +5,7 @@ import Chart from 'primevue/chart';
 
 import { useToast } from 'vue-toastification';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
+import Denmark from '@/components/Denmark.vue';
 
 const toast = useToast();
 
@@ -94,7 +95,17 @@ const chartOptions = {
         }
     },
     scales: {
-        y: { beginAtZero: true }
+        y: {
+            beginAtZero: true,
+            title: {
+                display: true,
+                text: 'Kr/kWh',
+                font: {
+                    size: 14,
+                    weight: 'bold'
+                }
+            }
+        },
     }
 };
 </script>
@@ -102,25 +113,42 @@ const chartOptions = {
 
 
 <template>
+    <div class="bg-green-50 flex items-center justify-center px-2 py-4">
 
-    <h1 class="text-3xl font-bold text-blue-700 mb-6 text-center">Spotpris Overblik</h1>
+        <!-- Top Row: 3 Columns -->
+        <div class="grid grid-cols-3 gap-4 items-center mb-10">
 
-    <!-- Date Picker -->
-    <div class="flex justify-center mb-6">
-        <input type="date" class="border px-4 py-2 rounded" v-model="state.selectedDate" :min="'2025-04-01'"
-            :max="maxDateStr" />
-    </div>
+            <!-- Left: Denmark Map -->
+            <div class="flex justify-start">
+                <Denmark />
+            </div>
 
-    <!-- Chart -->
-    <div class="flex justify-center mb-10">
-        <div class="w-full max-w-5xl bg-white p-6 rounded-xl shadow">
-            <Chart type="bar" :data="chartData" :options="chartOptions" />
+            <!-- Middle: Headline + Date Picker -->
+            <div class="flex flex-col items-center">
+                <h1 class="text-3xl font-bold text-blue-700 mb-4">Spotpris Overblik</h1>
+                <input type="date" class="border px-4 py-2 rounded" v-model="state.selectedDate" :min="'2025-04-01'"
+                    :max="maxDateStr" />
+            </div>
+
+            <!-- Right: Empty -->
+            <div></div>
         </div>
     </div>
+    <div class="bg-green-50  items-center justify-center px-2 py-4">
 
-    <!-- Loading -->
-    <div v-if="state.isLoading" class="text-center text-gray-500 py-6">
-        <PulseLoader />
+        <!-- Chart Row (Full Width) -->
+        <div class="flex justify-center mb-10 col-span-3">
+            <div class="w-full max-w-5xl bg-white p-6 rounded-xl shadow">
+                <Chart type="bar" :data="chartData" :options="chartOptions" />
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div v-if="state.isLoading" class="text-center text-gray-500 py-6">
+            <PulseLoader />
+        </div>
+
     </div>
-
 </template>
+
+

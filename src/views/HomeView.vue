@@ -3,6 +3,7 @@ import Hero from '@/components/Hero.vue';
 import Homecards from '@/components/Homecards.vue';
 import HomeImage from '@/components/HomeImage.vue';
 import SportPriceChart from '@/components/sportprischart.vue';
+
 </script>
 
 <template>
@@ -12,7 +13,9 @@ import SportPriceChart from '@/components/sportprischart.vue';
   <Hero />
  
   <HomeImage />
-    <SportPriceChart />
+
+  <SportPriceChart />
+ 
   <Homecards />
 
 
