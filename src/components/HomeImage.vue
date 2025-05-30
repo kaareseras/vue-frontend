@@ -11,7 +11,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="min-h-screen bg-green-50 flex items-center justify-center px-2 py-4">
+  <div class="bg-green-50 flex items-center justify-center px-2 py-4">
     <div
       class="bg-white shadow-xl rounded-2xl overflow-hidden max-w-6xl w-11/12 flex flex-col md:flex-row transition-all duration-700 ease-in-out"
       :class="{ 'opacity-100 translate-y-0': imageLoaded, 'opacity-0 translate-y-6': !imageLoaded }"
@@ -39,5 +39,5 @@ onMounted(() => {
         </router-link>
       </div>
     </div>
-  </section>
+  </div>
 </template>

@@ -13,7 +13,7 @@ import AdminChargeOwnerView from '@/views/AdminChargeOwnerView.vue';
 import AdminChargeView from '@/views/AdminChargeView.vue';
 import AdminTaxView from '@/views/AdminTaxView.vue'
 import AdminTarifView from '@/views/AdminTarifView.vue'
-
+import AdminSpotView from '@/views/AdminSpotView.vue'
 
 
 const router = createRouter({
@@ -83,6 +83,11 @@ const router = createRouter({
             path: '/admin/taxes',
             name: 'tax-management',
             component: AdminTaxView
+        },
+        {
+            path: '/admin/spotprices',
+            name: 'spot-management',
+            component: AdminSpotView
         },
         {
             path: '/:catchAll(.*)',
