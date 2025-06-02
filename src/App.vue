@@ -4,6 +4,7 @@ import Fotter from '@/components/Fotter.vue';
 import { RouterView } from 'vue-router';
 import { onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import ChatBot from '@/components/ChatBot.vue';
 
 const auth = useAuthStore()
 
@@ -19,4 +20,5 @@ onMounted(async () => {
   <Navbar />
   <RouterView />
   <Fotter />
+  <ChatBot />
 </template>
