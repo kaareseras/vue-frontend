@@ -4,11 +4,18 @@ const isOpen = ref(false)
 const message = ref('')
 const history = ref([])
 const chatBody = ref(null)
+import axios from 'axios';
 
 const defaultMessage = {
     role: 'assistant',
     content: 'Hej! Hvordan kan jeg hjælpe dig med priserne på elektricitet i Danmark i dag?'
 }
+
+const axiosInstance = axios.create({
+  baseURL: `${import.meta.env.VITE_API_URL}`,
+  headers: {
+  },
+});
 
 // Initialiser chatten
 function initChat() {
@@ -33,16 +40,9 @@ const sendMessage = async () => {
     message.value = ''
 
     try {
-        const response = await fetch('http://localhost:8000/copilot/agent', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        })
+        const response = await axiosInstance.post('/copilot/agent', payload);
+        const data = await response.data
 
-
-        const data = await response.json()
 
         // Add assistant response
         history.value.push({ role: 'assistant', content: data.content })
