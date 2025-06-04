@@ -40,7 +40,7 @@ const sendMessage = async () => {
     message.value = ''
 
     try {
-        const response = await axiosInstance.post('/copilot/agent', payload);
+        const response = await axiosInstance.post('/copilot/agent/', payload);
         const data = await response.data
 
 
