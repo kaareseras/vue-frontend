@@ -19,8 +19,6 @@ const router = useRouter()
 const auth = useAuthStore()
 const toast = useToast()
 
-username.value = auth.user.email || ''
-
 async function forgotPassword() {
     try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/forgot-password`, {
