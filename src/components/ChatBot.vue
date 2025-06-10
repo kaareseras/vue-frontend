@@ -121,15 +121,34 @@ function clearChat() {
 }
 
 .chat-window {
-    width: 600px;
-    height: 800px;
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 90vw;
+    max-width: 600px;
+    height: 80vh;
+    max-height: 800px;
     background: white;
     border: 1px solid #ccc;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    animation: slideInUp 0.3s ease-out;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .chat-header {
