@@ -14,7 +14,8 @@ import AdminChargeView from '@/views/AdminChargeView.vue';
 import AdminTaxView from '@/views/AdminTaxView.vue'
 import AdminTarifView from '@/views/AdminTarifView.vue'
 import AdminSpotView from '@/views/AdminSpotView.vue'
-
+import AdminDeviceView from '@/views/AdminDeviceView.vue';
+import UserAdoptDeviceView from '@/views/UserAdoptDeviceView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -88,6 +89,16 @@ const router = createRouter({
             path: '/admin/spotprices',
             name: 'spot-management',
             component: AdminSpotView
+        },
+        {
+            path: '/admin/devices',
+            name: 'device-management',
+            component: AdminDeviceView
+        },
+        {
+            path: '/user/deviceadoption/:uuid?',
+            name: 'device-adoption',
+            component: UserAdoptDeviceView
         },
         {
             path: '/:catchAll(.*)',
