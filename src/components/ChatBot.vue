@@ -5,6 +5,12 @@ const message = ref('')
 const history = ref([])
 const chatBody = ref(null)
 import axios from 'axios';
+import { marked } from 'marked'
+
+// Converts Markdown to HTML
+const renderMarkdown = (text) => {
+    return marked.parse(text)
+}
 
 const defaultMessage = {
     role: 'assistant',
@@ -12,9 +18,9 @@ const defaultMessage = {
 }
 
 const axiosInstance = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}`,
-  headers: {
-  },
+    baseURL: `${import.meta.env.VITE_API_URL}`,
+    headers: {
+    },
 });
 
 // Initialiser chatten
@@ -62,9 +68,9 @@ const sendMessage = async () => {
 
 }
 
-    onMounted(() => {
-        initChat()
-    })
+onMounted(() => {
+    initChat()
+})
 
 // Funktion til at cleare chatten
 // Ryd chatten og tilføj standard besked
@@ -86,13 +92,14 @@ function clearChat() {
 
             <div class="chat-body" ref="chatBody">
                 <div v-for="(msg, index) in history" :key="index" :class="['chat-message', msg.role]">
-                    <div class="message-bubble">{{ msg.content }}</div>
+                    <div class="message-bubble"
+                        v-html="msg.role === 'assistant' ? renderMarkdown(msg.content) : msg.content"></div>
                 </div>
             </div>
 
             <form class="chat-input" @submit.prevent="sendMessage">
                 <input type="text" v-model="message" placeholder="Type a message..." required />
-                <button type="submit">Send</button> 
+                <button type="submit">Send</button>
                 <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                     @click="clearChat">Clear</button>
             </form>
@@ -117,7 +124,7 @@ function clearChat() {
     text-align: center;
     font-size: 20px;
     width: 60px;
-    height: 60px;   
+    height: 60px;
 }
 
 .chat-window {
@@ -145,6 +152,7 @@ function clearChat() {
         transform: translateY(100%);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -212,5 +220,33 @@ function clearChat() {
     color: white;
     border-radius: 16px;
     cursor: pointer;
+}
+
+.message-bubble table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.message-bubble thead {
+  background-color: #f0f8ff;
+}
+
+.message-bubble th,
+.message-bubble td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.message-bubble tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.message-bubble tbody tr:hover {
+  background-color: #eef6ff;
 }
 </style>
