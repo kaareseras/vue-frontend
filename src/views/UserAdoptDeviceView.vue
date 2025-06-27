@@ -75,7 +75,7 @@ const submitAdoption = async () => {
         });
 
         toast.success('Device adopted successfully!');
-        router.push('/');
+        router.push('/home');
     } catch (error) {
         toast.error('Failed to adopt device.');
     }

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const username = ref('')
@@ -8,6 +8,7 @@ const password = ref('')
 const loading = ref(false)
 const error = ref(null)
 
+const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
 
@@ -16,7 +17,9 @@ async function handleLogin() {
     loading.value = true
     try {
         await auth.login(username.value, password.value)
-        router.push('/') // Gå til forsiden efter login
+        // After successful login
+        const redirectPath = route.query.redirect || '/home'
+        router.push(redirectPath)
     } catch (err) {
         error.value = 'Login mislykkedes. Tjek dine oplysninger.'
     } finally {

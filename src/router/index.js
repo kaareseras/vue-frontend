@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '@/stores/auth'
+
+import SplashView from '@/views/SplashView.vue';
 import HomeView from '@/views/HomeView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 import LoginView from '@/views/LoginView.vue'
@@ -17,13 +20,21 @@ import AdminSpotView from '@/views/AdminSpotView.vue'
 import AdminDeviceView from '@/views/AdminDeviceView.vue';
 import UserAdoptDeviceView from '@/views/UserAdoptDeviceView.vue';
 
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
+            name: 'splash',
+            component: SplashView
+        },
+        {
+            path: '/home',
             name: 'home',
-            component: HomeView
+            component: HomeView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/login',
@@ -33,7 +44,8 @@ const router = createRouter({
         {
             path: '/user',
             name: 'UserSettings',
-            component: UserSettingsView
+            component: UserSettingsView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/usercreate',
@@ -53,52 +65,62 @@ const router = createRouter({
         {
             path: '/reset-password',
             name: 'reset-password',
-            component: ResetPasswordView
+            component: ResetPasswordView,
+            meta: { requiresAuth: true }
         },  
         {
             path: '/admin',
             name: 'admin-dashboard',
-            component: AdminDashboardView
+            component: AdminDashboardView,
+            meta: { requiresAuth: true }
         },       
         {
             path: '/admin/users',
             name: 'admin-user-management',
-            component: AdminUserManagementView
+            component: AdminUserManagementView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/admin/charge-owners',
             name: 'charge-owners-management',
-            component: AdminChargeOwnerView
+            component: AdminChargeOwnerView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/admin/charges',
             name: 'charge-management',
-            component: AdminChargeView
+            component: AdminChargeView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/admin/tarifs',
             name: 'tarif-management',
-            component: AdminTarifView
+            component: AdminTarifView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/admin/taxes',
             name: 'tax-management',
-            component: AdminTaxView
+            component: AdminTaxView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/admin/spotprices',
             name: 'spot-management',
-            component: AdminSpotView
+            component: AdminSpotView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/admin/devices',
             name: 'device-management',
-            component: AdminDeviceView
+            component: AdminDeviceView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/user/deviceadoption/:uuid?',
             name: 'device-adoption',
-            component: UserAdoptDeviceView
+            component: UserAdoptDeviceView,
+            meta: { requiresAuth: true }
         },
         {
             path: '/:catchAll(.*)',
@@ -109,5 +131,16 @@ const router = createRouter({
 
     ]
 });
+
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore()
+
+  if (to.meta.requiresAuth && !auth.isAuthenticated) {
+    // Optionally store the path to redirect to after login
+    next({ name: 'login', query: { redirect: to.fullPath } })
+  } else {
+    next()
+  }
+})
 
 export default router;

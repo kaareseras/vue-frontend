@@ -33,8 +33,8 @@ const isActiveLink = (routePath) => {
                     <div class="md:ml-auto">
                         <div class="flex space-x-2">
                             <!-- home button  -->
-                            <RouterLink to="/"
-                                :class="[isActiveLink('/') ? 'bg-green-900' : 'hover:bg-gray-900 hover:text-white', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
+                            <RouterLink to="/home"
+                                :class="[isActiveLink('/home') ? 'bg-green-900' : 'hover:bg-gray-900 hover:text-white', 'text-white', 'hover:text-white', 'rounded-md', 'px-3', 'py-2']">
                                 <i class="pi pi-home"></i>
                             </RouterLink>
 
