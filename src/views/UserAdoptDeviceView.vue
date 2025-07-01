@@ -161,18 +161,18 @@ onMounted(() => {
                     <input id="electricHeated" type="checkbox" v-model="state.form.is_electric_heated"
                         class="border-gray-300" />
                     <label for="electricHeated" class="text-sm text-gray-700">
-                        This is an electric heated house
+                        This is an electric heated house (Tax discount applied)
                     </label>
                 </div>
 
                 <!-- Retail Markup -->
                 <div>
-                    <label class="block text-sm font-medium mb-1 text-gray-700">Retail Markup (%)</label>
+                    <label class="block text-sm font-medium mb-1 text-gray-700">Retail Markup (Kr incl VAT)</label>
                     <input
                         type="number"
                         step="0.01"
                         v-model.number="state.form.retail_markup"
-                        placeholder="Optional retail markup"
+                        placeholder="Optional retail markup to be added to price"
                         class="w-full border px-3 py-2 rounded"
                     />
                 </div>
