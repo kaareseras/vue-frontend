@@ -27,14 +27,15 @@ const state = reactive({
     showQrScanner: false,
     form: {
         name: '',
-        chargeowner_id: '',
+        chargeowner_id: null,
         price_area: 'DK1',
-        is_electric_heated: false
+        is_electric_heated: false,
+        retail_markup: null,
     }
 });
 
 function handleRegionSelected(region) {
-    state.form.price_area = region
+    state.form.price_area = region;
 }
 
 const selectedChargeowner = computed(() => {
@@ -61,17 +62,23 @@ const onQrDetect = ([qr]) => {
 
 const submitAdoption = async () => {
     if (!state.uuid || !state.form.name || !state.form.chargeowner_id || !state.form.price_area) {
-        toast.error('All fields are required.');
+        toast.error('All fields except Retail Markup are required.');
+        return;
+    }
+
+    if (state.form.retail_markup !== null && (state.form.retail_markup < 0 || state.form.retail_markup > 100)) {
+        toast.error('Retail markup must be between 0 and 100.');
         return;
     }
 
     try {
-        await axiosInstance.post(`/device/adopt/${state.uuid}`, {
+        await axiosInstance.post('/device/adopt', {
             uuid: state.uuid,
             name: state.form.name,
-            chargeowner_id: state.form.chargeowner_id,
+            chargeowner_id: Number(state.form.chargeowner_id),
             price_area: state.form.price_area,
-            is_electric_heated: state.form.is_electric_heated
+            is_electric_heated: state.form.is_electric_heated,
+            retail_markup: state.form.retail_markup
         });
 
         toast.success('Device adopted successfully!');
@@ -123,15 +130,12 @@ onMounted(() => {
                         class="w-full border px-3 py-2 rounded" />
                 </div>
 
-
                 <!-- Price Area -->
                 <div>
                     <label class="block text-sm font-medium mb-1 text-gray-700">Price Area</label>
-                    <!-- Left: Denmark Map -->
                     <div class="flex justify-center">
                         <Denmark @region-selected="handleRegionSelected" />
                     </div>
-                    <!-- 🧠 Bound to the same state -->
                     <select v-model="state.form.price_area" class="w-full border px-3 py-2 rounded" required>
                         <option value="DK1">DK1</option>
                         <option value="DK2">DK2</option>
@@ -152,7 +156,6 @@ onMounted(() => {
                     </div>
                 </div>
 
-
                 <!-- Electric Heating -->
                 <div class="flex items-center gap-2">
                     <input id="electricHeated" type="checkbox" v-model="state.form.is_electric_heated"
@@ -160,6 +163,18 @@ onMounted(() => {
                     <label for="electricHeated" class="text-sm text-gray-700">
                         This is an electric heated house
                     </label>
+                </div>
+
+                <!-- Retail Markup -->
+                <div>
+                    <label class="block text-sm font-medium mb-1 text-gray-700">Retail Markup (%)</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        v-model.number="state.form.retail_markup"
+                        placeholder="Optional retail markup"
+                        class="w-full border px-3 py-2 rounded"
+                    />
                 </div>
 
                 <!-- Submit -->

@@ -17,7 +17,7 @@ const axiosInstance = axios.create({
 
 const fetchDevices = async () => {
   try {
-    const response = await axiosInstance.get('/device')
+    const response = await axiosInstance.get('/device/')
     devices.value = response.data
   } catch (error) {
     console.error('Error fetching devices:', error)

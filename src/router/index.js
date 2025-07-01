@@ -18,6 +18,7 @@ import AdminTaxView from '@/views/AdminTaxView.vue'
 import AdminTarifView from '@/views/AdminTarifView.vue'
 import AdminSpotView from '@/views/AdminSpotView.vue'
 import AdminDeviceView from '@/views/AdminDeviceView.vue';
+import AdminDeviceTypeView from '@/views/AdminDeviceTypeView.vue';
 import UserAdoptDeviceView from '@/views/UserAdoptDeviceView.vue';
 
 
@@ -117,6 +118,18 @@ const router = createRouter({
             meta: { requiresAuth: true }
         },
         {
+            path: '/admin/devicetype',
+            name: 'devicetype-management',
+            component: AdminDeviceTypeView,
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/user/deviceadoption/:uuid?',
+            name: 'device-adoption',
+            component: UserAdoptDeviceView,
+            meta: { requiresAuth: true }
+        },
+                {
             path: '/user/deviceadoption/:uuid?',
             name: 'device-adoption',
             component: UserAdoptDeviceView,

@@ -18,6 +18,12 @@ const tasks = reactive([
     route: 'devices',
     icon: 'pi-tablet'
   },
+    {
+    title: 'DeviceType Management',
+    description: 'Manage device types and their configurations',
+    route: 'devicetype',
+    icon: 'pi-copy'
+  },
 ]);
 
 const pricingTasks = reactive([
